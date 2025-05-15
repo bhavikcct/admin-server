@@ -34,3 +34,31 @@ model Project {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model Estimation {
+  id         Int       @id @default(autoincrement())
+  title      String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  sections   Section[]
+}
+
+model Section {
+  id           Int      @id @default(autoincrement())
+  sectionName  String
+  estimation   Estimation @relation(fields: [estimationId], references: [id])
+  estimationId Int
+  items        Item[]
+}
+
+model Item {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String
+  unit        String
+  quantity    Int
+  price       Float
+  margin      Float
+  section     Section @relation(fields: [sectionId], references: [id])
+  sectionId   Int
+}
